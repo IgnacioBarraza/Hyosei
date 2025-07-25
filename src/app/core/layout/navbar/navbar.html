@@ -1,0 +1,118 @@
+<header
+  class="fixed top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+>
+  <div class="container mx-auto flex h-14 items-center md:h-16">
+    <img
+      src="/hyosei.ico"
+      alt="Logo feria de ciencias"
+      class="w-8 h-8 hidden sm:block"
+    />
+    <a
+      href="/inicio"
+      class="hidden sm:flex items-center justify-center mr-4 space-x-2 md:mr-6"
+    >
+      <span class="text-xl font-bold">Hyōsei</span>
+    </a>
+
+    <!-- {/* Navegación para escritorio */} -->
+    <nav class="hidden md:flex md:flex-1 md:items-center md:justify-between">
+      <div class="flex gap-4 md:gap-6">
+        @for (item of navItems; track $index) {
+        <a
+          [routerLink]="item.href"
+          class="text-sm font-medium transition-colors hover:text-primary"
+        >
+          {{item.name}}
+        </a>
+        }
+      </div>
+
+      <div class="flex items-center gap-2">
+        @if (isLoggedIn) {
+        <!-- <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button variant="ghost" class="flex items-center gap-1">
+                    <User class="h-4 w-4" />
+                    <span class="hidden sm:inline">{user.name}</span>
+                    <ChevronDown class="h-4 w-4" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem asChild>
+                    <a href="/perfil">Ver perfil</a>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <a href="/evaluados">Mis evaluaciones</a>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={logout}>
+                    <LogOut class="mr-2 h-4 w-4" />
+                    Cerrar sesión
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu> -->
+        } @else {
+        <p-button pButton class="h-8 md:h-9 bg-black p-3">
+          <a href="/login">
+            <i class="pi pi-sign-in mr-2 h-4 w-4"></i>
+            <span class="hidden sm:inline">Iniciar sesión</span>
+            <span class="sm:hidden">Ingresar</span>
+          </a>
+        </p-button>
+        }
+      </div>
+    </nav>
+
+    <!-- {/* Menú móvil */} -->
+    <div class="flex flex-1 items-center justify-end md:hidden">
+      <!-- <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" class="h-8 w-8 md:hidden">
+                <Menu class="h-5 w-5" />
+                <span class="sr-only">Abrir menú</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" class="w-[85vw] sm:max-w-sm">
+              <nav class="grid gap-4 text-base font-medium">
+                @for (item of navItems; track item.id) {
+                  <a
+                    href={{item.href}}
+                    class="transition-colors hover:text-foreground"
+                  >
+                    {{item.name}}
+                  </a>
+                }
+                <div class="mt-2 border-t pt-4">
+                  @if (isLoggedIn) {
+                    <div class="grid gap-3">
+                      <div class="flex items-center gap-2">
+                        <User class="h-4 w-4" />
+                        <span>{{user.name}}</span>
+                      </div>
+                      <Link href="/perfil" class="text-muted-foreground transition-colors hover:text-foreground">
+                        Ver perfil
+                      </Link>
+                      <Link href="/evaluados" class="text-muted-foreground transition-colors hover:text-foreground">
+                        <ClipboardList class="mr-2 inline h-4 w-4" />
+                        Mis evaluaciones
+                      </Link>
+                      <Button variant="outline" class="mt-2 bg-transparent" onClick={logout}>
+                        <LogOut class="mr-2 h-4 w-4" />
+                        Cerrar sesión
+                      </Button>
+                    </div>
+                  } @else {
+                    <button class="w-full">
+                      <a href="/login">
+                        <i class="pi pi-sign-in mr-2 h-4 w-4"></i>
+                        Iniciar sesión
+                      </a>
+                    </button>
+                  }
+                </div>
+              </nav>
+            </SheetContent>
+          </Sheet> -->
+    </div>
+  </div>
+</header>

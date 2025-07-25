@@ -5,6 +5,7 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 
 import { routes } from './app.routes';
+import myPreset from '../assets/myPreset';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,12 +14,13 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
-        preset: Aura,
+        preset: myPreset,
         options: {
           cssLayer: {
             name: 'primeng',
             order: 'tailwind-base, primeng, tailwind-utilities',
           },
+          darkModeSelector: false || 'none',
         },
       },
     }),

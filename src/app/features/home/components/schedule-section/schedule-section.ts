@@ -41,5 +41,20 @@ export class ScheduleSection {
         },
       ],
     },
+    {
+      fecha: '29 de Julio, 2025',
+      eventos: [
+        {
+          hora: '08:30 - 10:30',
+          actividad: 'Inauguración de la Expo',
+          lugar: 'Auditorio',
+        },
+        {
+          hora: '10:30 - 13:15',
+          actividad: 'Exposición de Proyectos',
+          lugar: 'Auditorio',
+        },
+      ],
+    },
   ];
 }

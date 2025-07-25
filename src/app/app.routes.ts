@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 import { Layout } from './core/layout/layout';
-import { Home } from './features/home/home';
-import { Projects } from './features/projects/projects';
 import { Evaluate } from './features/evaluate/evaluate';
 import { authGuard } from './core/guards/auth.guard';
 import { Evaluated } from './features/evaluated/evaluated';
 import { Admin } from './features/admin/admin';
+import { Home } from './features/home/home';
+import { Projects } from './features/projects/projects';
 
 export const routes: Routes = [
   {
