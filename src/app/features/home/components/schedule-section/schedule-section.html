@@ -1,0 +1,51 @@
+<section class="mb-8 md:mb-16">
+  <div class="mb-4 flex items-center justify-between md:mb-8">
+    <h2 class="text-xl font-bold tracking-tight md:text-3xl">Cronograma</h2>
+    <!-- <button
+            class="h-8 px-2 text-xs md:h-10 md:px-4 md:text-sm bg-transparent"
+          >
+            <a href="/cronograma">
+              Ver completo
+              <i class="ml-1 h-3 w-3 md:ml-2 md:h-4 md:w-4" ></i>
+            </a>
+          </button> -->
+  </div>
+
+  <p-tabs value="{{cronograma[0].fecha}}" class="w-full">
+    <div class="overflow-x-auto pb-2">
+      <p-tablist class="w-max">
+        @for (day of cronograma; track $index) {
+        <p-tab value="{{day.fecha}}" class="text-xs md:text-sm">
+          {{day.fecha}}
+        </p-tab>
+        }
+      </p-tablist>
+    </div>
+    @for (day of cronograma; track $index) {
+    <p-tabpanels class="space-y-3 md:space-y-4">
+      @for (event of day.eventos; track $index) {
+      <p-tabpanel value="{{day.fecha}}">
+        <p-card>
+          <div class="p-3 md:p-4">
+            <div class="grid gap-1 md:grid-cols-[1fr_2fr_1fr] md:gap-4">
+              <div class="font-medium text-primary text-sm md:text-base">
+                {{event.hora}}
+              </div>
+              <div class="font-semibold text-sm md:text-base">
+                {{event.actividad}}
+              </div>
+              <div
+                class="flex items-center text-muted-foreground text-xs md:text-sm"
+              >
+                <i class="pi pi-map-marker mr-1 h-3 w-3 md:h-4 md:w-4"></i>
+                {{event.lugar}}
+              </div>
+            </div>
+          </div>
+        </p-card>
+      </p-tabpanel>
+      }
+    </p-tabpanels>
+    }
+  </p-tabs>
+</section>
