@@ -6,6 +6,8 @@ import { EventService } from '../../core/services/event.service';
 import { Subject, takeUntil } from 'rxjs';
 import { EventBasic } from '../../core/models/event';
 import { Category } from '../../core/models/category';
+import { Project } from '../../core/models/projects';
+import { enrichCategoriesWithCountAndColor } from '../../utils/utils';
 
 @Component({
   selector: 'app-home',
@@ -26,16 +28,16 @@ export class Home implements OnInit, OnDestroy {
         this.event = event;
       });
 
-    this.eventService.categories$
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((categories) => {
-        console.log(categories);
-        this.categories = categories;
-      });
+    const event = this.eventService.getEvent();
+    this.categories = this.formatCategories(event.categories, event.projects);
   }
 
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+  }
+
+  formatCategories(categories: Category[], projects: Project[]): Category[] {
+    return enrichCategoriesWithCountAndColor(categories, projects);
   }
 }

@@ -31,17 +31,17 @@
             <h3
               class="text-lg font-bold text-foreground md:text-xl group-hover:text-primary transition-colors"
             >
-              {{category.nombre}}
+              {{category.name}}
             </h3>
             <p-badge
               variant="secondary"
               class="text-xs px-3 rounded-2xl bg-secondary text-color"
-              [value]="category.proyectos + ' proyectos'"
+              [value]="category.projects + ' proyectos'"
             ></p-badge>
           </div>
 
           <p class="text-sm text-muted-foreground leading-relaxed md:text-base">
-            {{category.descripcion}}
+            {{category.description}}
           </p>
 
           <div class="pt-2">
@@ -50,7 +50,7 @@
               class="h-auto p-0 text-sm font-medium text-primary hover:text-primary/80 group-hover:translate-x-1 transition-all"
             >
               <a
-                href="/proyectos?categoria={{category.id}}"
+                href="{{projectUrl}}?categoria={{category.id}}"
                 class="flex items-center gap-1"
               >
                 Explorar proyectos
