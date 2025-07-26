@@ -1,0 +1,89 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-background">
+  <!-- Contenido principal -->
+  <div
+    class="relative z-10 flex flex-col items-center space-y-8 p-8 text-center"
+  >
+    <!-- Logo / Marca -->
+    <div class="space-y-2">
+      <div
+        class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-neutral-800 text-white shadow-lg"
+      >
+        <i class="pi pi-lightbulb text-2xl"></i>
+      </div>
+      <h1 class="text-2xl font-bold text-neutral-800 md:text-3xl">{{name}}</h1>
+      <p class="text-sm text-neutral-600 md:text-base">{{sub_title}}</p>
+    </div>
+
+    <!-- Spinner de carga -->
+    <div class="relative">
+      <i class="pi pi-spin pi-spinner text-neutral-800 text-3xl"></i>
+    </div>
+
+    <!-- Barra de progreso -->
+    <div class="w-full max-w-xs space-y-2">
+      <div class="h-2 overflow-hidden rounded-full bg-neutral-200">
+        <div
+          class="h-full bg-gradient-to-r from-neutral-600 to-neutral-800 transition-all duration-300 ease-out"
+          [style.width.%]="progressWidth"
+        ></div>
+      </div>
+      <p class="text-xs text-neutral-500">{{ roundedProgress }}% completado</p>
+    </div>
+
+    <!-- Consejo / Tip -->
+    <div
+      class="flex min-h-[60px] items-center space-x-3 rounded-lg bg-white/80 px-6 py-4 shadow-sm backdrop-blur-sm"
+    >
+      <i
+        class="{{ loadingTips[currentTip].icon }} text-neutral-600 text-xl"
+      ></i>
+      <p class="text-sm font-medium text-neutral-700 md:text-base">
+        {{ loadingTips[currentTip].text }}
+      </p>
+    </div>
+
+    <!-- Info del evento -->
+    <div class="space-y-3 rounded-lg bg-white/60 p-4 backdrop-blur-sm">
+      <div
+        class="flex items-center justify-center space-x-2 text-sm text-neutral-600"
+      >
+        <i class="pi pi-calendar"></i>
+        <span>
+          {{ formatDate(date_start) }} @if (!isSameDay(date_start, date_end)) {
+          <ng-container> — {{ formatDate(date_end) }} </ng-container>
+          }
+        </span>
+      </div>
+      <div
+        class="flex items-center justify-center space-x-2 text-sm text-neutral-600"
+      >
+        <i class="pi pi-clock"></i>
+        <span>{{formatTime(date_start)}} - {{formatTime(date_end)}} hrs</span>
+      </div>
+      <div
+        class="flex items-center justify-center space-x-2 text-sm text-neutral-600"
+      >
+        <i class="pi pi-map-marker"></i>
+        <span>{{location}}</span>
+      </div>
+    </div>
+
+    <!-- Texto de carga animado -->
+    <div class="space-y-1">
+      <p class="text-sm text-neutral-500">
+        Preparando la mejor experiencia para ti...
+      </p>
+      <div class="flex items-center justify-center space-x-1">
+        <div
+          class="h-1 w-1 animate-bounce rounded-full bg-neutral-400"
+          style="animation-delay: -0.3s"
+        ></div>
+        <div
+          class="h-1 w-1 animate-bounce rounded-full bg-neutral-400"
+          style="animation-delay: -0.15s"
+        ></div>
+        <div class="h-1 w-1 animate-bounce rounded-full bg-neutral-400"></div>
+      </div>
+    </div>
+  </div>
+</div>

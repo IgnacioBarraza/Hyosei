@@ -1,3 +1,13 @@
+@if (loading) {
+<app-page-loader
+  [name]="event.name"
+  [sub_title]="event.sub_title"
+  [description]="event.description"
+  [date_start]="event.date_start"
+  [date_end]="event.date_end"
+  [location]="event.location"
+/>
+} @else {
 <div class="flex flex-col min-h-[100dvh]">
   <app-navbar />
   <main class="flex-1 pt-16">
@@ -5,3 +15,4 @@
   </main>
   <app-footer />
 </div>
+}
