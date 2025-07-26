@@ -5,7 +5,12 @@ import { providePrimeNG } from 'primeng/config';
 
 import { routes } from './app.routes';
 import myPreset from '../assets/myPreset';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
+import { apikeyauthInterceptor } from './core/interceptors/apikeyauth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,6 +29,6 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([apikeyauthInterceptor])),
   ],
 };
