@@ -4,7 +4,7 @@ import { Navbar } from './navbar/navbar';
 import { Footer } from './footer/footer';
 import { EventService } from '../services/event.service';
 import { PageLoader } from '../../shared/components/page-loader/page-loader';
-import { EventData } from '../models/event';
+import { EventBasic } from '../models/event';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -17,7 +17,7 @@ export class Layout implements OnInit, OnDestroy {
   private onDestroy$ = new Subject<void>();
   loading: boolean = true;
   error: boolean = false;
-  event!: EventData;
+  event!: EventBasic;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,12 +39,13 @@ export class Layout implements OnInit, OnDestroy {
     this.eventService.loading$
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((value) => {
-        setTimeout(() => {
-          this.loading = value;
-        }, 1200);
+        // setTimeout(() => {
+        // this.loading = value;
+        // }, 1200);
+        this.loading = value;
       });
 
-    this.eventService.event$
+    this.eventService.eventBasic$
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data) => {
         this.event = data;

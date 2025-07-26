@@ -7,36 +7,49 @@
         <h1
           class="mb-2 text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl lg:text-5xl"
         >
-          Feria Universitaria 2025
+          {{eventData.name}}
         </h1>
         <p class="text-lg text-neutral-600 md:text-xl">
-          Innovación y Tecnología para el Futuro
+          {{eventData.sub_title}}
+        </p>
+        <p class="text-xl md:text-xl mt-3 font-semibold">
+          {{eventData.description}}
         </p>
       </div>
       <div class="space-y-2">
         <div class="flex items-center gap-2">
           <i class="pi pi-calendar h-5 w-5 text-neutral-500"></i>
-          <span>10-12 de Junio, 2025</span>
+          <span>
+            {{ formatDate(eventData.date_start) }} @if
+            (!isSameDay(eventData.date_start, eventData.date_end)) {
+            <ng-container>
+              — {{ formatDate(eventData.date_end) }}
+            </ng-container>
+            }
+          </span>
         </div>
         <div class="flex items-center gap-2">
           <i class="pi pi-clock h-5 w-5 text-neutral-500"></i>
-          <span>9:00 - 18:00 hrs</span>
+          <span
+            >{{formatTime(eventData.date_start)}} -
+            {{formatTime(eventData.date_end)}} hrs</span
+          >
         </div>
         <div class="flex items-center gap-2">
           <i class="pi pi-map-marker h-5 w-5 text-neutral-500"> </i>
-          <span>Campus Central, Universidad Nacional</span>
+          <span>{{eventData.location}}</span>
         </div>
       </div>
       <div class="flex flex-wrap gap-3 pt-4">
         <a
-          href="/proyectos"
+          href="{{projectUrl}}"
           pButton
           class="bg-neutral-900 text-white hover:bg-neutral-700 px-4 rounded-xl h-12"
         >
           <span pButtonLabel>Ver Proyectos</span>
         </a>
         <a
-          href="/registro"
+          href="/signup"
           pButton
           class="border-neutral-400 hover:bg-neutral-200 bg-transparent border px-4 rounded-xl h-12"
         >
@@ -47,7 +60,7 @@
     <div class="mt-6 md:mt-0 md:flex md:items-center md:justify-center">
       <div class="relative overflow-hidden rounded-lg">
         <img
-          src="/banner_expo2025.png"
+          src="{{eventData.banner_url}}"
           alt="Feria Universitaria"
           class="object-center"
         />

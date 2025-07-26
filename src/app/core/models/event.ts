@@ -21,3 +21,13 @@ export interface EventData {
   // reviewers?: [];
   // attendance_sessions?: [];
 }
+
+export interface EventBasic {
+  name: string;
+  sub_title: string;
+  description: string;
+  date_start: string;
+  date_end: string;
+  location: string;
+  banner_url: string;
+}

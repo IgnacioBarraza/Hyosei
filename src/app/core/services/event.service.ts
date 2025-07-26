@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, of } from 'rxjs';
+import { BehaviorSubject, catchError, map, of } from 'rxjs';
 import { EventData } from '../models/event';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -78,4 +78,28 @@ export class EventService {
         this.loadingSubject.next(false);
       });
   }
+
+  public eventBasic$ = this.event$.pipe(
+    map((event) => ({
+      name: event.name,
+      sub_title: event.sub_title,
+      description: event.description,
+      date_start: event.date_start,
+      date_end: event.date_end,
+      location: event.location,
+      banner_url: event.banner_url,
+    }))
+  );
+
+  // Observable para solo projects
+  public projects$ = this.event$.pipe(map((event) => event.projects ?? []));
+
+  // Observable para solo categories
+  public categories$ = this.event$.pipe(map((event) => event.categories ?? []));
+
+  // Observable para solo forms
+  public forms$ = this.event$.pipe(map((event) => event.forms ?? []));
+
+  // Observable para solo client
+  public client$ = this.event$.pipe(map((event) => event.client ?? null));
 }
