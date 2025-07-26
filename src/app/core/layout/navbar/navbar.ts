@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
+import { EventService } from '../../services/event.service';
 
 type NavItem = {
   name: string;
@@ -21,28 +22,23 @@ export class Navbar {
 
   isLoggedIn = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
-    // Suscribirse para obtener los params al cargar
-    this.route.paramMap.subscribe((params) => {
-      this.apiKey = params.get('apiKey') ?? '';
-      this.eventId = params.get('eventId') ?? '';
-
-      // Una vez que los tienes, armar el array de navegación
-      this.navItems = [
-        { name: 'Inicio', href: `/${this.apiKey}/event/${this.eventId}` },
-        {
-          name: 'Proyectos',
-          href: `/${this.apiKey}/event/${this.eventId}/proyectos`,
-        },
-        {
-          name: 'Evaluados',
-          href: `/${this.apiKey}/event/${this.eventId}/evaluados`,
-        },
-        {
-          name: 'Categorías',
-          href: `/${this.apiKey}/event/${this.eventId}/categorias`,
-        },
-      ];
-    });
+  constructor(private eventService: EventService) {
+    this.apiKey = this.eventService.getApiKey();
+    this.eventId = this.eventService.getEventId();
+    this.navItems = [
+      { name: 'Inicio', href: `/${this.apiKey}/event/${this.eventId}` },
+      {
+        name: 'Proyectos',
+        href: `/${this.apiKey}/event/${this.eventId}/proyectos`,
+      },
+      {
+        name: 'Evaluados',
+        href: `/${this.apiKey}/event/${this.eventId}/evaluados`,
+      },
+      {
+        name: 'Categorías',
+        href: `/${this.apiKey}/event/${this.eventId}/categorias`,
+      },
+    ];
   }
 }
