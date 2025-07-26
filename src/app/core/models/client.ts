@@ -2,6 +2,7 @@ export interface Client {
   id: string;
   name: string;
   api_key: string;
+  contact_email: string;
   logo_url: string;
   staff?: ClientStaff[];
   created_at: string;

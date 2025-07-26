@@ -55,17 +55,17 @@
         <h3 class="text-base font-semibold">Contacto</h3>
         <ul class="space-y-2 text-sm">
           <li class="flex items-center gap-2 text-muted-foreground">
-            <!-- <Mail class="h-4 w-4" /> -->
-            <span>contacto&#64;feriauniversitaria.edu</span>
+            <i class="pi pi-envelope h-4 w-4"> </i>
+            <span>{{contact_email}}</span>
           </li>
-          <li class="flex items-center gap-2 text-muted-foreground">
-            <!-- <Phone class="h-4 w-4" /> -->
+          <!-- <li class="flex items-center gap-2 text-muted-foreground">
+            <Phone class="h-4 w-4" />
             <span>+56 2 2123 4567</span>
-          </li>
-          <li class="flex items-center gap-2 text-muted-foreground">
-            <!-- <MapPin class="h-4 w-4" /> -->
+          </li> -->
+          <!-- <li class="flex items-center gap-2 text-muted-foreground">
+            <i class="pi pi-map-marker h-4 w-4"> </i>
             <span>Campus Central, Universidad XYZ</span>
-          </li>
+          </li> -->
         </ul>
         <!-- <div class="flex gap-4 pt-2">
               <a
@@ -138,7 +138,9 @@
       >
         <div>
           <p class="text-sm font-medium">Hyosei</p>
-          <!-- <p class="text-xs text-muted-foreground">© {{currentYear}} Todos los derechos reservados.</p> -->
+          <p class="text-xs text-muted-foreground">
+            © {{currentYear}} Todos los derechos reservados.
+          </p>
         </div>
         <div class="text-center md:text-right">
           <p class="text-xs text-muted-foreground">Powered by</p>

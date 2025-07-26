@@ -39,10 +39,9 @@ export class Layout implements OnInit, OnDestroy {
     this.eventService.loading$
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((value) => {
-        // setTimeout(() => {
-        // this.loading = value;
-        // }, 1200);
-        this.loading = value;
+        setTimeout(() => {
+          this.loading = value;
+        }, 1200);
       });
 
     this.eventService.eventBasic$
