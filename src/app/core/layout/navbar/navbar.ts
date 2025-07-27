@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { EventService } from '../../services/event.service';
@@ -18,7 +18,7 @@ type NavItem = {
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
-export class Navbar implements OnInit {
+export class Navbar implements OnInit, OnDestroy {
   private onDestroy$ = new Subject<void>();
   @ViewChild('op') op!: Popover;
   apiKey: string = '';
@@ -51,7 +51,6 @@ export class Navbar implements OnInit {
 
   ngOnInit(): void {
     this.auth.user$.pipe(takeUntil(this.onDestroy$)).subscribe((user) => {
-      console.log(user);
       this.user = user!;
       this.isLoggedIn = !!user;
     });

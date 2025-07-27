@@ -1,1 +1,152 @@
-<p>signup works!</p>
+<p-toast />
+<form
+  class="container mx-auto flex min-h-[calc(100vh-4rem)] items-center py-8"
+  (ngSubmit)="onSubmit()"
+  [formGroup]="signUp"
+>
+  <div class="mx-auto grid w-full max-w-5xl gap-6 lg:grid-cols-2">
+    <!-- Login Form Card -->
+    <p-card class="border-none shadow-none">
+      <div class="space-y-1">
+        <div class="text-2xl font-bold">Crear cuenta</div>
+        <div class="text-sm">
+          Regístrate para participar en la {{event.name}}
+        </div>
+      </div>
+
+      <div class="grid gap-4 mt-2">
+        <!-- RUT Input -->
+        <div class="grid gap-2">
+          <label for="rut" class="font-bold text-sm">RUT</label>
+          <input
+            pInputText
+            id="rut"
+            name="rut"
+            type="text"
+            formControlName="rut"
+            placeholder="12345678-9"
+            required
+            class="border rounded-sm"
+          />
+          <small id="rut-help"> Ingresa tu RUT sin puntos y con guión. </small>
+        </div>
+
+        <!-- Name Input -->
+        <div class="grid gap-2">
+          <label for="name" class="font-bold text-sm">Nombre Completo</label>
+          <input
+            pInputText
+            id="name"
+            name="name"
+            type="text"
+            formControlName="name"
+            required
+            class="border rounded-sm"
+          />
+        </div>
+
+        <!-- Password Input -->
+        <div class="grid gap-2">
+          <label for="password" class="font-bold text-sm">Contraseña</label>
+          <input
+            pInputText
+            id="password"
+            name="password"
+            type="password"
+            formControlName="password"
+            required
+            minlength="8"
+            class="border rounded-sm"
+          />
+          <small id="password-help">
+            La contraseña debe tener al menos 8 caracteres.
+          </small>
+        </div>
+
+        <!-- Confirm Password Input -->
+        <div class="grid gap-2">
+          <label for="confirmPassword" class="font-bold text-sm"
+            >Repetir Contraseña</label
+          >
+          <input
+            pInputText
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            formControlName="confirmPassword"
+            required
+            minlength="8"
+            class="border rounded-sm"
+          />
+          <small id="password-help">
+            La contraseña debe tener al menos 8 caracteres.
+          </small>
+        </div>
+      </div>
+
+      <!-- Submit button and register link -->
+      <div class="flex flex-col mt-6">
+        <button
+          pButton
+          type="submit"
+          class="w-full bg-black rounded-md h-8"
+          [disabled]="signUp.invalid"
+        >
+          <span pButtonLabel class="text-neutral-100"> Registrarse </span>
+        </button>
+
+        <p class="mt-4 text-center text-sm text-muted-foreground">
+          ¿Ya tienes una cuenta?
+          <a
+            [routerLink]="['/', apiKey, 'event', eventId, 'auth', 'login']"
+            class="text-primary underline-offset-4 hover:underline"
+          >
+            Iniciar Sesión
+          </a>
+        </p>
+      </div>
+    </p-card>
+
+    <!-- Event Info Card -->
+    <div
+      class="hidden rounded-xl bg-gradient-to-br from-neutral-100 to-neutral-200 p-8 text-neutral-800 lg:block"
+    >
+      <div class="flex h-full flex-col justify-between">
+        <div>
+          <h2 class="text-2xl font-bold">{{ event.name }}</h2>
+          <p class="mt-2 text-neutral-600">{{ event.sub_title }}</p>
+        </div>
+
+        <div class="relative my-8 aspect-video overflow-hidden rounded-lg">
+          <img
+            [src]="event.banner_url"
+            [alt]="event.name || 'Feria Universitaria'"
+          />
+        </div>
+
+        <div class="space-y-3">
+          <div class="flex items-center gap-2">
+            <i class="pi pi-calendar h-5 w-5 text-neutral-500"></i>
+            <span>
+              {{ formatDate(event.date_start) }} @if
+              (!isSameDay(event.date_start, event.date_end)) {
+              <ng-container> — {{ formatDate(event.date_end) }} </ng-container>
+              }
+            </span>
+          </div>
+          <div class="flex items-center gap-2">
+            <i class="pi pi-clock h-5 w-5 text-neutral-500"></i>
+            <span
+              >{{formatTime(event.date_start)}} - {{formatTime(event.date_end)}}
+              hrs</span
+            >
+          </div>
+          <div class="flex items-center gap-2">
+            <i class="pi pi-map-marker h-5 w-5 text-neutral-500"></i>
+            <span>{{ event.location }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

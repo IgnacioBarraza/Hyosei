@@ -74,12 +74,12 @@
 
     <!-- Event Info Card -->
     <div
-      class="hidden rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 p-8 text-white lg:block"
+      class="hidden rounded-xl bg-gradient-to-br from-neutral-100 to-neutral-200 p-8 text-neutral-800 lg:block"
     >
       <div class="flex h-full flex-col justify-between">
         <div>
           <h2 class="text-2xl font-bold">{{ event.name }}</h2>
-          <p class="mt-2 text-blue-100">{{ event.sub_title }}</p>
+          <p class="mt-2 text-neutral-600">{{ event.sub_title }}</p>
         </div>
 
         <div class="relative my-8 aspect-video overflow-hidden rounded-lg">
@@ -91,7 +91,7 @@
 
         <div class="space-y-3">
           <div class="flex items-center gap-2">
-            <i class="pi pi-calendar h-5 w-5 text-blue-200"></i>
+            <i class="pi pi-calendar h-5 w-5 text-neutral-500"></i>
             <span>
               {{ formatDate(event.date_start) }} @if
               (!isSameDay(event.date_start, event.date_end)) {
@@ -100,14 +100,14 @@
             </span>
           </div>
           <div class="flex items-center gap-2">
-            <i class="pi pi-clock h-5 w-5 text-blue-200"></i>
+            <i class="pi pi-clock h-5 w-5 text-neutral-500"></i>
             <span
               >{{formatTime(event.date_start)}} - {{formatTime(event.date_end)}}
               hrs</span
             >
           </div>
           <div class="flex items-center gap-2">
-            <i class="pi pi-map-marker h-5 w-5 text-blue-200"></i>
+            <i class="pi pi-map-marker h-5 w-5 text-neutral-500"></i>
             <span>{{ event.location }}</span>
           </div>
         </div>

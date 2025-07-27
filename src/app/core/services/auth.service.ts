@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../models/user';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { EventService } from './event.service';
@@ -58,21 +58,14 @@ export class AuthService {
   }
 
   signup(name: string, rut: string, password: string) {
-    return this.http
-      .post<{ token: string }>(`${this.apiUrl}/signup`, { name, rut, password })
-      .subscribe({
-        next: (res) => {
-          console.log(res.token);
-          this.handleAuthToken(res.token);
-          this.router.navigate([`/${this.apiKey}/event/${this.eventId}`]); // ejemplo redirección post-signup
-        },
-        error: (err) => {
-          console.error('Signup error:', err);
-        },
-      });
+    return this.http.post<{ token: string }>(`${this.apiUrl}/signup`, {
+      name,
+      rut,
+      password,
+    });
   }
 
-  private handleAuthToken(token: string) {
+  public handleAuthToken(token: string) {
     this.setToken(token);
     const userId = this.getUserIdFromToken(token);
     if (userId) {

@@ -53,7 +53,7 @@ export class Login implements OnInit {
 
     this.loginForm = this.fb.group({
       rut: ['', [Validators.required, Validators.pattern(/^\d{7,8}-[0-9kK]$/)]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required]],
     });
   }
 
