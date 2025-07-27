@@ -1,0 +1,117 @@
+<form
+  class="container mx-auto flex min-h-[calc(100vh-4rem)] items-center py-8"
+  (ngSubmit)="onSubmit()"
+  [formGroup]="loginForm"
+>
+  <div class="mx-auto grid w-full max-w-5xl gap-6 lg:grid-cols-2">
+    <!-- Login Form Card -->
+    <p-card class="border-none shadow-none">
+      <div class="space-y-1">
+        <div class="text-2xl font-bold">Iniciar sesión</div>
+        <div class="text-sm">
+          Ingresa tus credenciales para acceder a la plataforma
+        </div>
+      </div>
+
+      <div class="grid gap-4 mt-6">
+        <!-- RUT Input -->
+        <div class="grid gap-2">
+          <label for="rut" class="font-bold">RUT</label>
+          <input
+            pInputText
+            id="rut"
+            name="rut"
+            type="text"
+            formControlName="rut"
+            placeholder="12345678-9"
+            required
+            class="border rounded-sm"
+          />
+          <small id="rut-help"> Ingresa tu RUT sin puntos y con guión. </small>
+        </div>
+
+        <!-- Password Input -->
+        <div class="grid gap-2">
+          <label for="password" class="font-bold">Contraseña</label>
+          <input
+            pInputText
+            id="password"
+            name="password"
+            type="password"
+            formControlName="password"
+            required
+            minlength="8"
+            class="border rounded-sm"
+          />
+          <small id="password-help">
+            La contraseña debe tener al menos 8 caracteres.
+          </small>
+        </div>
+      </div>
+
+      <!-- Submit button and register link -->
+      <div class="flex flex-col mt-6">
+        <button
+          pButton
+          type="submit"
+          class="w-full bg-black rounded-md h-8"
+          [disabled]="loginForm.invalid"
+        >
+          <span pButtonLabel class="text-neutral-100"> Iniciar sesión </span>
+        </button>
+
+        <p class="mt-4 text-center text-sm text-muted-foreground">
+          ¿No tienes una cuenta?
+          <a
+            [routerLink]="['/', apiKey, 'event', eventId, 'auth', 'signup']"
+            class="text-primary underline-offset-4 hover:underline"
+          >
+            Regístrate
+          </a>
+        </p>
+      </div>
+    </p-card>
+
+    <!-- Event Info Card -->
+    <div
+      class="hidden rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 p-8 text-white lg:block"
+    >
+      <div class="flex h-full flex-col justify-between">
+        <div>
+          <h2 class="text-2xl font-bold">{{ event.name }}</h2>
+          <p class="mt-2 text-blue-100">{{ event.sub_title }}</p>
+        </div>
+
+        <div class="relative my-8 aspect-video overflow-hidden rounded-lg">
+          <img
+            [src]="event.banner_url"
+            [alt]="event.name || 'Feria Universitaria'"
+          />
+        </div>
+
+        <div class="space-y-3">
+          <div class="flex items-center gap-2">
+            <i class="pi pi-calendar h-5 w-5 text-blue-200"></i>
+            <span>
+              {{ formatDate(event.date_start) }} @if
+              (!isSameDay(event.date_start, event.date_end)) {
+              <ng-container> — {{ formatDate(event.date_end) }} </ng-container>
+              }
+            </span>
+          </div>
+          <div class="flex items-center gap-2">
+            <i class="pi pi-clock h-5 w-5 text-blue-200"></i>
+            <span
+              >{{formatTime(event.date_start)}} - {{formatTime(event.date_end)}}
+              hrs</span
+            >
+          </div>
+          <div class="flex items-center gap-2">
+            <i class="pi pi-map-marker h-5 w-5 text-blue-200"></i>
+            <span>{{ event.location }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

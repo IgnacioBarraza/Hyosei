@@ -6,6 +6,9 @@ import { Evaluated } from './features/evaluated/evaluated';
 import { Admin } from './features/admin/admin';
 import { Home } from './features/home/home';
 import { Projects } from './features/projects/projects';
+import { Auth } from './features/auth/auth';
+import { Login } from './features/auth/login/login';
+import { Signup } from './features/auth/signup/signup';
 
 export const routes: Routes = [
   {
@@ -37,6 +40,20 @@ export const routes: Routes = [
         component: Admin,
         canActivate: [authGuard],
         data: { roles: ['admin'] },
+      },
+      {
+        path: 'auth',
+        component: Auth,
+        children: [
+          {
+            path: 'login',
+            component: Login,
+          },
+          {
+            path: 'signup',
+            component: Signup,
+          },
+        ],
       },
     ],
   },

@@ -4,6 +4,7 @@ import { User } from '../models/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
+import { EventService } from './event.service';
 
 interface DecodedToken {
   user: string; // id
@@ -17,12 +18,21 @@ interface DecodedToken {
   providedIn: 'root',
 })
 export class AuthService {
-  apiUrl: string = 'https://api-hyosei.up.railway.app/api';
+  apiUrl: string = 'https://api-hyosei.up.railway.app/api/users';
+
+  apiKey: string;
+  eventId: string;
 
   private userSubject = new BehaviorSubject<User | null>(null);
   public user$ = this.userSubject.asObservable();
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private event: EventService
+  ) {
+    this.apiKey = this.event.getApiKey();
+    this.eventId = this.event.getEventId();
     const token = this.getToken();
 
     if (token) {
@@ -39,7 +49,7 @@ export class AuthService {
       .subscribe({
         next: (res) => {
           this.handleAuthToken(res.token);
-          this.router.navigate(['/dashboard']); // ejemplo redirección post-login
+          this.router.navigate([`/${this.apiKey}/event/${this.eventId}`]); // ejemplo redirección post-login
         },
         error: (err) => {
           console.error('Login error:', err);
@@ -52,8 +62,9 @@ export class AuthService {
       .post<{ token: string }>(`${this.apiUrl}/signup`, { name, rut, password })
       .subscribe({
         next: (res) => {
+          console.log(res.token);
           this.handleAuthToken(res.token);
-          this.router.navigate(['/dashboard']); // ejemplo redirección post-signup
+          this.router.navigate([`/${this.apiKey}/event/${this.eventId}`]); // ejemplo redirección post-signup
         },
         error: (err) => {
           console.error('Signup error:', err);
@@ -70,17 +81,9 @@ export class AuthService {
   }
 
   private fetchUser(userId: string) {
-    const token = this.getToken();
-    if (!token) {
-      this.userSubject.next(null);
-      return;
-    }
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
-
-    this.http.get<User>(`${this.apiUrl}/${userId}`, { headers }).subscribe({
+    this.http.get<User>(`${this.apiUrl}/id/${userId}`).subscribe({
       next: (user) => {
+        console.log(user);
         this.userSubject.next(user);
         this.setUser(user);
       },
@@ -95,7 +98,6 @@ export class AuthService {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('auth_user');
     this.userSubject.next(null);
-    this.router.navigate(['/login']);
   }
 
   // --- LocalStorage getters/setters ---

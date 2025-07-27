@@ -12,13 +12,14 @@ export class Footer implements OnInit {
   private onDestroy$ = new Subject<void>();
   contact_email!: string;
   currentYear: number = new Date().getFullYear();
-  constructor(private eventService: EventService) {}
 
-  ngOnInit(): void {
+  constructor(private eventService: EventService) {
     this.eventService.client$
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((client) => {
         this.contact_email = client.contact_email;
       });
   }
+
+  ngOnInit(): void {}
 }

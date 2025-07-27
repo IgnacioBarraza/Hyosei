@@ -7,8 +7,8 @@ export const apikeyauthInterceptor: HttpInterceptorFn = (req, next) => {
   const event = Inject(EventService);
   const auth = Inject(AuthService);
 
-  const apikey = event.getApiKey();
-  const token = auth.getToken();
+  const apikey = event.getApiKey?.();
+  const token = auth.getToken?.();
 
   const url = req.url.toLowerCase();
 
