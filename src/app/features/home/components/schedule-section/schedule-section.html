@@ -5,9 +5,14 @@
 
   <p-tabs value="{{cronograma[0].fecha}}" class="w-full">
     <div class="overflow-x-auto pb-2">
-      <p-tablist class="w-max">
+      <p-tablist
+        class="w-max flex justify-center border rounded-sm p-1 bg-neutral-300"
+      >
         @for (day of cronograma; track $index) {
-        <p-tab [value]="day.fecha" class="text-xs md:text-sm ml-2">
+        <p-tab
+          [value]="day.fecha"
+          class="flex-1 text-xs md:text-sm text-center min-w-32"
+        >
           {{day.fecha}}
         </p-tab>
         }

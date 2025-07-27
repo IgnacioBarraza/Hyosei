@@ -9,6 +9,8 @@ import { Projects } from './features/projects/projects';
 import { Auth } from './features/auth/auth';
 import { Login } from './features/auth/login/login';
 import { Signup } from './features/auth/signup/signup';
+import { Detail } from './features/projects/detail/detail';
+import { ProjectLayout } from './core/project-layout/project-layout';
 
 export const routes: Routes = [
   {
@@ -21,7 +23,17 @@ export const routes: Routes = [
       },
       {
         path: 'proyectos',
-        component: Projects,
+        component: ProjectLayout,
+        children: [
+          {
+            path: '',
+            component: Projects,
+          },
+          {
+            path: ':id',
+            component: Detail,
+          },
+        ],
       },
       {
         path: 'evaluar',

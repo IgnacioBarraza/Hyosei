@@ -1,0 +1,170 @@
+<div class="container mx-auto py-4 md:py-8">
+  <div class="mb-4 md:mb-6">
+    <a
+      [routerLink]="['/', apiKey, 'event', eventId, 'proyectos']"
+      class="inline-flex items-center text-muted-foreground hover:text-foreground"
+    >
+      <i class="pi pi-arrow-left mr-2 h-4 w-4"></i>
+      Volver a proyectos
+    </a>
+  </div>
+
+  <div class="grid gap-6 md:gap-8 lg:grid-cols-[2fr_1fr]">
+    <!-- {/* Columna izquierda: Imágenes y detalles */} -->
+    <div class="space-y-6 md:space-y-8">
+      <div class="relative aspect-video overflow-hidden rounded-xl">
+        <img
+          [src]="project.image_url"
+          [alt]="project.title"
+          class="object-cover w-full"
+        />
+      </div>
+
+      <!-- {/* Detalles del proyecto */} -->
+      <div>
+        <div class="mb-4 flex flex-wrap items-center justify-between gap-2">
+          <h1 class="text-xl font-bold md:text-2xl lg:text-3xl">
+            {{project.title}}
+          </h1>
+          <p-badge
+            variant="secondary"
+            class="mt-2 text-xs px-3 rounded-2xl bg-secondary text-color"
+            [value]="project.category.name"
+          >
+          </p-badge>
+        </div>
+
+        <h2 class="mb-2 text-lg font-semibold">Descripción</h2>
+        <p class="text-sm text-muted-foreground md:text-base">
+          {{project.description}}
+        </p>
+
+        <div class="border-b my-4 md:my-6"></div>
+
+        <h2 class="mb-4 flex items-center text-lg font-semibold">
+          <i class="pi pi-users mr-2 h-5 w-5"></i>
+          Integrantes
+        </h2>
+        <div class="grid gap-3 sm:grid-cols-2">
+          @for (member of project.members; track member.id) {
+          <div
+            key="{integrante.id}"
+            class="flex items-center gap-3 rounded-lg border p-3"
+          >
+            <div
+              class="flex h-9 w-9 items-center justify-center rounded-full bg-muted text-sm md:h-10 md:w-10"
+            >
+              {{member.full_name.charAt(0)}}
+            </div>
+            <div>
+              <p class="font-medium">{{member.full_name}}</p>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- {/* Columna derecha: Evaluación */} -->
+    <div>
+      <p-card class="border p-4 rounded-xl">
+        <div>
+          <div class="flex items-center text-lg md:text-xl font-bold">
+            <i class="pi pi-star mr-2 h-5 w-5"></i>
+            Evaluación del Proyecto
+          </div>
+        </div>
+        <div>
+          @if (userCanEvaluate || sendedEvaluation) {
+          <div class="text-center">
+            <div
+              class="mb-4 inline-flex rounded-full bg-green-100 p-3 text-green-600"
+            >
+              <i class="pi pi-star h-6 w-6"></i>
+            </div>
+            <h3 class="mb-2 text-lg font-medium">
+              ¡Gracias por tu evaluación!
+            </h3>
+            <p class="text-muted-foreground">
+              Tu evaluación ha sido registrada correctamente.
+            </p>
+          </div>
+          } @else {
+          <form>
+            <p-tabs value="preguntas">
+              <p-tablist
+                class="w-full flex justify-center mt-2 border rounded-sm p-1 bg-neutral-300"
+              >
+                <p-tab value="preguntas" class="flex-1 text-center"
+                  >Criterios</p-tab
+                >
+                <p-tab value="comentarios" class="flex-1 text-center"
+                  >Comentarios</p-tab
+                >
+              </p-tablist>
+              <p-tabpanels class="space-y-4 pt-4">
+                <p-tabpanel value="preguntas">
+                  @for (question of form.questions; track question.id) {
+                  <div key="{criterio.id}">
+                    <div class="mb-2 flex justify-between">
+                      <label class="text-sm font-medium md:text-base">
+                        {{question.question}}
+                      </label>
+                      <span class="text-xs text-muted-foreground md:text-sm">
+                        {{ selectedRatings[question.id] || '-' }}/7
+                      </span>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                      @for (value of [1, 2, 3,4, 5, 6, 7]; track value) {
+                      <button
+                        type="button"
+                        class="h-9 w-9 p-0 md:h-10 md:w-10 border rounded-md cursor-pointer"
+                        [ngClass]="{
+    'bg-primary text-white': selectedRatings[question.id] === value,
+    'bg-white text-black': selectedRatings[question.id] !== value
+  }"
+                        (click)="handleRatingChange(question.id, value)"
+                      >
+                        {{ value }}
+                      </button>
+                      }
+                    </div>
+                  </div>
+                  }
+                </p-tabpanel>
+                <p-tabpanel value="comentarios" class="flex">
+                  <textarea
+                    pTextarea
+                    rows="5"
+                    cols="30"
+                    name="comment"
+                    placeholder="Escribe tus comentarios sobre el proyecto..."
+                    class="min-h-32 border w-full"
+                    [(ngModel)]="comment"
+                  ></textarea>
+                </p-tabpanel>
+              </p-tabpanels>
+            </p-tabs>
+            <button
+              type="submit"
+              (click)="submitEvaluation()"
+              class="mt-6 w-full rounded-md h-8 transition-all duration-200 font-medium flex items-center justify-center bg-black text-white hover:bg-neutral-800 cursor-pointer"
+            >
+              @if (isSubmitting) {
+              <div class="flex items-center space-x-2">
+                <div
+                  class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
+                ></div>
+                <span>Enviando evaluación...</span>
+              </div>
+              } @else {
+              <span>Enviar evaluación</span>
+              }
+            </button>
+          </form>
+          }
+        </div>
+      </p-card>
+    </div>
+  </div>
+</div>

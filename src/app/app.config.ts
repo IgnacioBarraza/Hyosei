@@ -10,7 +10,7 @@ import {
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
-import { apikeyauthInterceptor } from './core/interceptors/apikeyauth.interceptor';
+import { ApikeyAuthInterceptor } from './core/interceptors/apikeyauth.interceptor';
 import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
@@ -30,7 +30,7 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
-    provideHttpClient(withFetch(), withInterceptors([apikeyauthInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([ApikeyAuthInterceptor])),
     MessageService,
   ],
 };

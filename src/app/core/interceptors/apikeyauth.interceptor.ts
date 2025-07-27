@@ -1,18 +1,26 @@
-import { HttpInterceptorFn } from '@angular/common/http';
-import { Inject } from '@angular/core';
+import {
+  HttpInterceptorFn,
+  HttpRequest,
+  HttpHandlerFn,
+} from '@angular/common/http';
+import { inject, Injector } from '@angular/core';
 import { EventService } from '../services/event.service';
 import { AuthService } from '../services/auth.service';
 
-export const apikeyauthInterceptor: HttpInterceptorFn = (req, next) => {
-  const event = Inject(EventService);
-  const auth = Inject(AuthService);
+export const ApikeyAuthInterceptor: HttpInterceptorFn = (
+  req: HttpRequest<any>,
+  next: HttpHandlerFn
+) => {
+  const event = inject(EventService);
+  const injector = inject(Injector);
 
   const apikey = event.getApiKey?.();
-  const token = auth.getToken?.();
-
   const url = req.url.toLowerCase();
 
-  if (url.includes('/users') || url.includes('/roles')) return next(req);
+  // No agregar headers en endpoints de /users o /roles
+  if (url.includes('/users') || url.includes('/roles')) {
+    return next(req);
+  }
 
   let headers = req.headers;
 
@@ -20,11 +28,16 @@ export const apikeyauthInterceptor: HttpInterceptorFn = (req, next) => {
     headers = headers.set('x-api-key', apikey);
   }
 
-  // Solo para evaluaciones añadir Authorization Bearer
-  if (token && url.includes('/evaluations')) {
-    headers = headers.set('Authorization', `Bearer ${token}`);
+  // Solo agregar token en evaluaciones - inyección lazy para evitar dependencia circular
+  if (url.includes('/evaluations')) {
+    const auth = injector.get(AuthService);
+    const token = auth.getToken?.();
+
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
   }
 
-  const cloned = req.clone({ headers });
-  return next(cloned);
+  const clonedReq = req.clone({ headers });
+  return next(clonedReq);
 };

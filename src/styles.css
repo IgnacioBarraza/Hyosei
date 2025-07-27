@@ -163,3 +163,26 @@
     max-width: 1400px;
   }
 }
+
+.p-select-option {
+  padding: 10px !important;
+}
+
+.p-select-clear-icon {
+  top: 30%;
+}
+
+.p-tab-active {
+  height: 25px;
+  background: #fefeff !important;
+  border-radius: 4px;
+  color: black;
+}
+
+.p-tablist-active-bar {
+  height: 0;
+}
+
+.p-tab {
+  background: #d4d4d4;
+}

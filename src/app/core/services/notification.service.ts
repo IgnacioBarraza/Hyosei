@@ -23,4 +23,12 @@ export class NotificationService {
       detail: detail,
     });
   }
+
+  showWarn(detail: string) {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Advertencia',
+      detail: detail,
+    });
+  }
 }

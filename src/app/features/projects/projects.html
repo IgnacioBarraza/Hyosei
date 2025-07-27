@@ -1,1 +1,81 @@
-<p>projects works!</p>
+<div class="container mx-auto py-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold tracking-tight md:text-4xl">Proyectos</h1>
+    <p class="mt-2 text-muted-foreground">
+      Explora todos los proyectos presentados en
+    </p>
+  </div>
+
+  <!-- {/* Filtros */} -->
+  <div class="mb-8 grid gap-4 md:grid-cols-[1fr_auto]">
+    <div class="relative">
+      <p-iconfield>
+        <p-inputicon
+          class="pi pi-search absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+        />
+        <input
+          type="text"
+          pInputText
+          placeholder="Buscar proyecto"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="filterProjects()"
+          class="pl-10 border rounded-sm w-full p-2.5 placeholder:text-muted-foreground"
+        />
+      </p-iconfield>
+    </div>
+    <div class="card flex justify-center">
+      <p-select
+        [options]="categories"
+        [(ngModel)]="selectedCategory"
+        optionLabel="name"
+        placeholder="Todas las categorias"
+        class="w-full md:w-56 border p-2"
+        [showClear]="true"
+        variant="filled"
+        (ngModelChange)="filterProjects()"
+      >
+      </p-select>
+    </div>
+  </div>
+
+  <!-- {/* Grid de proyectos */} -->
+  @if (sortedProjects.length > 0) {
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    @for (project of sortedProjects; track project.id) {
+    <p-card class="overflow-hidden flex flex-col h-full">
+      <div class="relative aspect-video overflow-hidden rounded-lg">
+        <img [src]="project.image_url" class="w-full object-cover" />
+      </div>
+      <div class="flex flex-col flex-1">
+        <div class="p-4 flex-1 grid grid-rows-[minmax(2.5rem,auto)_auto] gap-3">
+          <h3 class="font-semibold">{{project.title}}</h3>
+          <div class="flex items-center">
+            <p-badge
+              variant="secondary"
+              class="mt-2 text-xs px-3 rounded-2xl bg-secondary text-color"
+              [value]="project.category.name"
+            >
+            </p-badge>
+          </div>
+        </div>
+        <div class="p-4 pt-0 mt-auto">
+          <a
+            pButton
+            [routerLink]="['/', apiKey, 'event', eventId, 'proyectos', project.id]"
+            class="w-full border-neutral-400 hover:bg-neutral-200 bg-transparent border px-4 rounded-sm h-12"
+            >Ver detalles</a
+          >
+        </div>
+      </div>
+    </p-card>
+    }
+  </div>
+  } @else {
+  <div class="rounded-lg border border-dashed p-8 text-center">
+    <h3 class="text-lg font-medium">No se encontraron proyectos</h3>
+    <p class="mt-2 text-muted-foreground">
+      Intenta con otros términos de búsqueda o selecciona otra categoría.
+    </p>
+  </div>
+  }
+</div>
