@@ -11,6 +11,7 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { apikeyauthInterceptor } from './core/interceptors/apikeyauth.interceptor';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,5 +31,6 @@ export const appConfig: ApplicationConfig = {
       },
     }),
     provideHttpClient(withFetch(), withInterceptors([apikeyauthInterceptor])),
+    MessageService,
   ],
 };

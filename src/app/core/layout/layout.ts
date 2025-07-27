@@ -6,10 +6,11 @@ import { EventService } from '../services/event.service';
 import { PageLoader } from '../../shared/components/page-loader/page-loader';
 import { EventBasic } from '../models/event';
 import { Subject, takeUntil } from 'rxjs';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-layout',
-  imports: [RouterOutlet, Navbar, Footer, PageLoader],
+  imports: [RouterOutlet, Navbar, Footer, PageLoader, Toast],
   templateUrl: './layout.html',
   styleUrl: './layout.css',
 })

@@ -16,6 +16,7 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-signup',
@@ -30,7 +31,6 @@ import { MessageService } from 'primeng/api';
   ],
   templateUrl: './signup.html',
   styleUrl: './signup.css',
-  providers: [MessageService],
 })
 export class Signup implements OnInit {
   private onDestroy$ = new Subject<void>();
@@ -43,8 +43,8 @@ export class Signup implements OnInit {
     private fb: FormBuilder,
     private auth: AuthService,
     private eventService: EventService,
-    private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    private notifier: NotificationService
   ) {
     this.apiKey = this.eventService.getApiKey();
     this.eventId = this.eventService.getEventId();
@@ -72,13 +72,15 @@ export class Signup implements OnInit {
       const controls = this.signUp.controls;
 
       if (controls['rut'].errors?.['pattern']) {
-        this.showError('Formato de RUT inválido. Ej: 12345678-9');
+        this.notifier.showError('Formato de RUT inválido. Ej: 12345678-9');
       } else if (controls['name'].errors?.['minlength']) {
-        this.showError('El nombre debe tener al menos 3 caracteres.');
+        this.notifier.showError('El nombre debe tener al menos 3 caracteres.');
       } else if (controls['password'].errors?.['minlength']) {
-        this.showError('La contraseña debe tener al menos 8 caracteres.');
+        this.notifier.showError(
+          'La contraseña debe tener al menos 8 caracteres.'
+        );
       } else {
-        this.showError('Completa todos los campos correctamente.');
+        this.notifier.showError('Completa todos los campos correctamente.');
       }
       return;
     }
@@ -86,7 +88,7 @@ export class Signup implements OnInit {
     const { name, rut, password, confirmPassword } = this.signUp.value;
 
     if (password !== confirmPassword) {
-      this.showError('Las contraseñas no coinciden.');
+      this.notifier.showError('Las contraseñas no coinciden.');
       return;
     }
 
@@ -96,13 +98,13 @@ export class Signup implements OnInit {
       .subscribe({
         next: (res) => {
           this.auth.handleAuthToken(res.token);
-          this.showSuccess('Registro exitoso. Redirigiendo...');
+          this.notifier.showSuccess('Registro exitoso. Redirigiendo...');
           this.router.navigate([`/${this.apiKey}/event/${this.eventId}`]);
         },
         error: (err) => {
           const detail =
             err?.error?.message || 'Ocurrió un error al registrarse.';
-          this.showError(detail);
+          this.notifier.showError(detail);
         },
       });
   }
@@ -124,21 +126,5 @@ export class Signup implements OnInit {
     const d1 = new Date(date1).toDateString();
     const d2 = new Date(date2).toDateString();
     return d1 === d2;
-  }
-
-  showSuccess(detail: string) {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: detail,
-    });
-  }
-
-  showError(detail: string) {
-    this.messageService.add({
-      severity: 'error',
-      summary: 'Error',
-      detail: detail,
-    });
   }
 }

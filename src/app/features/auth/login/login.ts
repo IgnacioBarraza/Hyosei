@@ -10,10 +10,11 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { AuthService } from '../../../core/services/auth.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { EventService } from '../../../core/services/event.service';
 import { EventBasic } from '../../../core/models/event';
 import { Subject, takeUntil } from 'rxjs';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -38,7 +39,9 @@ export class Login implements OnInit {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private eventService: EventService
+    private eventService: EventService,
+    private router: Router,
+    private notification: NotificationService
   ) {
     this.apiKey = this.eventService.getApiKey();
     this.eventId = this.eventService.getEventId();
@@ -58,12 +61,39 @@ export class Login implements OnInit {
   }
 
   onSubmit() {
-    if (this.loginForm.valid) {
-      const formData = this.loginForm.value;
-      this.auth.login(formData.rut, formData.password);
-    } else {
+    if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
+
+      const controls = this.loginForm.controls;
+      if (controls['rut'].errors?.['pattern']) {
+        this.notification.showError('Formato de RUT inválido. Ej: 12345678-9');
+      } else if (controls['name'].errors?.['minlength']) {
+        this.notification.showError(
+          'El nombre debe tener al menos 3 caracteres.'
+        );
+      } else if (controls['password'].errors?.['minlength']) {
+        this.notification.showError(
+          'La contraseña debe tener al menos 8 caracteres.'
+        );
+      } else {
+        this.notification.showError('Completa todos los campos correctamente.');
+      }
+      return;
     }
+
+    const { rut, password } = this.loginForm.value;
+    this.auth.login(rut, password).subscribe({
+      next: (res) => {
+        this.auth.handleAuthToken(res.token);
+        this.notification.showSuccess('Inicio de sesión exitoso.');
+        this.router.navigate([`/${this.apiKey}/event/${this.eventId}`]); // ejemplo redirección post-login
+      },
+      error: (err) => {
+        const detail =
+          err?.error?.message || 'Ocurrió un error al registrarse.';
+        this.notification.showError(detail);
+      },
+    });
   }
 
   formatDate = (dateStr: string) =>
