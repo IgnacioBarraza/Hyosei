@@ -2,14 +2,10 @@
   class="fixed top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
 >
   <div class="container mx-auto flex h-14 items-center md:h-16">
-    <img
-      src="/hyosei.ico"
-      alt="Logo feria de ciencias"
-      class="w-8 h-8 hidden sm:block"
-    />
+    <img src="/hyosei.ico" alt="Logo feria de ciencias" class="w-8 h-8 block" />
     <a
       [routerLink]="navItems[0].href"
-      class="hidden sm:flex items-center justify-center mr-4 space-x-2 md:mr-6"
+      class="flex items-center justify-center mr-4 space-x-2 md:mr-6"
     >
       <span class="text-xl font-bold">Hyōsei</span>
     </a>
@@ -73,54 +69,85 @@
 
     <!-- {/* Menú móvil */} -->
     <div class="flex flex-1 items-center justify-end md:hidden">
-      <!-- <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" class="h-8 w-8 md:hidden">
-                <Menu class="h-5 w-5" />
-                <span class="sr-only">Abrir menú</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" class="w-[85vw] sm:max-w-sm">
-              <nav class="grid gap-4 text-base font-medium">
-                @for (item of navItems; track item.id) {
+      <p-drawer #drawerRef [(visible)]="visible" position="right">
+        <ng-template #headless>
+          <div class="flex flex-col h-full p-2.5">
+            <div class="flex items-center justify-between px-6 pt-4 shrink-0">
+              <span class="inline-flex items-center gap-2">
+                <img
+                  src="/hyosei.ico"
+                  alt="Logo feria de ciencias"
+                  class="w-8 h-8 block"
+                />
+                <a
+                  [routerLink]="navItems[0].href"
+                  class="flex items-center justify-center mr-4 space-x-2 md:mr-6"
+                >
+                  <span class="text-xl font-bold">Hyōsei</span>
+                </a>
+              </span>
+              <span>
+                <p-button
+                  type="button"
+                  (click)="closeCallback($event)"
+                  icon="pi pi-times"
+                  rounded="true"
+                  outlined="true"
+                  styleClass="h-8 w-8"
+                ></p-button>
+              </span>
+            </div>
+            <div class="overflow-y-auto">
+              <ul class="list-none p-0 m-0 overflow-hidden">
+                @for (item of navItems; track item.href) {
+                <li>
                   <a
-                    href={{item.href}}
-                    class="transition-colors hover:text-foreground"
+                    [routerLink]="item.href"
+                    class="flex items-center cursor-pointer p-4 transition-colors hover:text-foreground"
                   >
-                    {{item.name}}
+                    <i class="pi {{item.icon}} mr-2"></i>
+                    <span class="text-black">{{item.name}}</span>
                   </a>
+                </li>
                 }
-                <div class="mt-2 border-t pt-4">
-                  @if (isLoggedIn) {
-                    <div class="grid gap-3">
-                      <div class="flex items-center gap-2">
-                        <User class="h-4 w-4" />
-                        <span>{{user.name}}</span>
-                      </div>
-                      <Link href="/perfil" class="text-muted-foreground transition-colors hover:text-foreground">
-                        Ver perfil
-                      </Link>
-                      <Link href="/evaluados" class="text-muted-foreground transition-colors hover:text-foreground">
-                        <ClipboardList class="mr-2 inline h-4 w-4" />
-                        Mis evaluaciones
-                      </Link>
-                      <Button variant="outline" class="mt-2 bg-transparent" onClick={logout}>
-                        <LogOut class="mr-2 h-4 w-4" />
-                        Cerrar sesión
-                      </Button>
-                    </div>
-                  } @else {
-                    <button class="w-full">
-                      <a href="/login">
-                        <i class="pi pi-sign-in mr-2 h-4 w-4"></i>
-                        Iniciar sesión
-                      </a>
-                    </button>
-                  }
+              </ul>
+              <div class="border-b my-1 w-full mx-auto"></div>
+              @if (isLoggedIn) {
+              <div class="grid gap-3 p-2.5">
+                <div class="flex items-center gap-2">
+                  <i class="pi pi-user h-4 w-4"></i>
+                  <span class="font-bold">{{user.name}}</span>
                 </div>
-              </nav>
-            </SheetContent>
-          </Sheet> -->
+                <a [routerLink]="navItems[2].href">
+                  <i class="pi pi-clipboard mr-2 inline h-4 w-4"></i>
+                  Mis evaluaciones
+                </a>
+                <button
+                  class="flex justify-center items-center gap-2 px-2 py-1 cursor-pointer rounded-border bg-black text-neutral-100"
+                  (onClick)="logout()"
+                >
+                  <i class="pi pi-sign-out"></i>
+                  <span>Cerrar sesión</span>
+                </button>
+              </div>
+              } @else {
+              <button
+                pButton
+                class="w-full mx-auto bg-black rounded-md h-8 mt-2 text-neutral-100"
+              >
+                <a
+                  [routerLink]="'/' + apiKey + '/event/' + eventId + '/auth/login'"
+                >
+                  <i class="pi pi-sign-in mr-2 h-4 w-4"></i>
+                  <span>Iniciar sesión</span>
+                </a>
+              </button>
+              }
+            </div>
+          </div>
+        </ng-template>
+      </p-drawer>
+      <p-button (click)="visible = true" icon="pi pi-bars" />
     </div>
   </div>
 </header>

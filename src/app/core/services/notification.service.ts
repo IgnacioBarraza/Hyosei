@@ -12,7 +12,6 @@ export class NotificationService {
       severity: 'success',
       summary: 'Success',
       detail: detail,
-      sticky: true,
     });
   }
 

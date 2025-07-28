@@ -67,7 +67,6 @@ export class Detail implements OnInit, OnDestroy {
     }
     if (!this.user?.id) {
       console.error('Usuario no autenticado.');
-      // return;
     }
 
     this.projectService
