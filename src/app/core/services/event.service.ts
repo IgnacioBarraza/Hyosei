@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, map, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  interval,
+  map,
+  of,
+  Subscription,
+} from 'rxjs';
 import { EventData } from '../models/event';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -10,6 +17,7 @@ export class EventService {
   private apiKey: string = '';
   private eventId: string = '';
   private backend_url: string = 'https://api-hyosei.up.railway.app/api/events';
+  private refreshSubscription: Subscription | null = null;
 
   private eventSubject = new BehaviorSubject<EventData>({} as EventData);
   private loadingSubject = new BehaviorSubject<boolean>(true);
@@ -23,6 +31,7 @@ export class EventService {
     this.apiKey = apiKey;
     this.eventId = eventId;
     this.fetchEvent();
+    this.startAutoRefresh();
   }
 
   getEvent(): EventData {
@@ -39,6 +48,21 @@ export class EventService {
 
   refresh(): void {
     this.fetchEvent(true);
+  }
+
+  private startAutoRefresh(): void {
+    console.log('refresh');
+    if (this.refreshSubscription) {
+      this.refreshSubscription.unsubscribe();
+    }
+
+    this.refreshSubscription = interval(60000) // cada 60 segundos
+      .subscribe(() => this.fetchEvent(true));
+  }
+
+  stopAutoRefresh(): void {
+    this.refreshSubscription?.unsubscribe();
+    this.refreshSubscription = null;
   }
 
   private fetchEvent(forceReload = false): void {
