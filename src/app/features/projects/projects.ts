@@ -10,7 +10,7 @@ import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-projects',
@@ -39,14 +39,31 @@ export class Projects implements OnInit, OnDestroy {
   eventId: string = '';
   expoName: string = '';
 
-  constructor(private eventService: EventService) {}
+  constructor(
+    private eventService: EventService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.apiKey = this.eventService.getApiKey();
     this.eventId = this.eventService.getEventId();
+
     this.eventService.categories$
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((categories) => (this.categories = categories));
+      .subscribe((categories) => {
+        this.categories = categories;
+
+        // 🔽 Leer query param una vez estén las categorías disponibles
+        const categoryId = this.route.snapshot.queryParamMap.get('categoria');
+        if (categoryId) {
+          this.selectedCategory = this.categories.find(
+            (cat) => cat.id === categoryId
+          );
+        }
+
+        // Aplica filtro si ya llegaron proyectos también
+        this.filterProjects();
+      });
 
     this.eventService.projects$
       .pipe(takeUntil(this.onDestroy$))

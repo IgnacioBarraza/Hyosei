@@ -11,6 +11,7 @@ import { Login } from './features/auth/login/login';
 import { Signup } from './features/auth/signup/signup';
 import { Detail } from './features/projects/detail/detail';
 import { ProjectLayout } from './core/project-layout/project-layout';
+import { Categories } from './features/category/category';
 
 export const routes: Routes = [
   {
@@ -38,8 +39,10 @@ export const routes: Routes = [
       {
         path: 'evaluados',
         component: Evaluated,
-        canActivate: [authGuard],
-        data: { roles: ['user', 'admin'] },
+      },
+      {
+        path: 'categorias',
+        component: Categories,
       },
       {
         path: 'admin',

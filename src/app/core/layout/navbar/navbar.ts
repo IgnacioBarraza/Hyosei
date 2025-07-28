@@ -53,7 +53,7 @@ export class Navbar implements OnInit, OnDestroy {
         icon: 'pi-clipboard',
       },
       {
-        name: 'Categorías',
+        name: 'Asignaturas',
         href: `/${this.apiKey}/event/${this.eventId}/categorias`,
         icon: 'pi-filter',
       },
@@ -62,11 +62,9 @@ export class Navbar implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.auth.user$.pipe(takeUntil(this.onDestroy$)).subscribe((user) => {
-      console.log(user);
       this.user = user!;
       this.isLoggedIn = !!user;
     });
-    console.log(localStorage.getItem('auth_token'));
   }
 
   ngOnDestroy(): void {
