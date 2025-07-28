@@ -40,7 +40,7 @@ export class ProjectService {
     project_id: string
   ): Observable<boolean> {
     return this.http.get<boolean>(
-      `http://localhost:5000/api/evaluations/user/${user_id}/project/${project_id}`
+      `${this.apiUrl}/evaluations/user/${user_id}/project/${project_id}`
     );
   }
 }

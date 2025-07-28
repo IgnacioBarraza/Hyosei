@@ -67,7 +67,7 @@ export class Detail implements OnInit, OnDestroy {
     }
     if (!this.user?.id) {
       console.error('Usuario no autenticado.');
-      return;
+      // return;
     }
 
     this.projectService
@@ -112,6 +112,13 @@ export class Detail implements OnInit, OnDestroy {
   }
 
   submitEvaluation() {
+    const user = this.auth.getUser();
+    if (!user) {
+      this.notifier.showWarn(
+        'Debes iniciar sesión o registrarte para evaluar este proyecto.'
+      );
+      return;
+    }
     const ratings = this.selectedRatings;
     const comment = this.comment;
 
