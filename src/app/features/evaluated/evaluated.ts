@@ -32,10 +32,11 @@ export class Evaluated implements OnInit, OnDestroy {
     if (user) {
       this.user = user;
     }
-    if (!this.user?.id) {
+    if (!this.user) {
       console.error('Usuario no autenticado.');
       this.evaluatedProjects = [];
     }
+
     this.projectService
       .getEvaluatedProjectsByUser(this.user.id, this.eventId)
       .pipe(takeUntil(this.onDestroy$))
