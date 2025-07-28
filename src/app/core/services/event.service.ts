@@ -31,7 +31,7 @@ export class EventService {
     this.apiKey = apiKey;
     this.eventId = eventId;
     this.fetchEvent();
-    this.startAutoRefresh();
+    // this.startAutoRefresh();
   }
 
   getEvent(): EventData {
