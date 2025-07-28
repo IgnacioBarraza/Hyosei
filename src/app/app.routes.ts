@@ -32,15 +32,8 @@ export const routes: Routes = [
           {
             path: ':id',
             component: Detail,
-            // canActivate: [authGuard],
           },
         ],
-      },
-      {
-        path: 'evaluar',
-        component: Evaluate,
-        canActivate: [authGuard],
-        data: { roles: ['user', 'admin'] },
       },
       {
         path: 'evaluados',

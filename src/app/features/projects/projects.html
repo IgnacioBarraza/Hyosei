@@ -2,7 +2,7 @@
   <div class="mb-8">
     <h1 class="text-3xl font-bold tracking-tight md:text-4xl">Proyectos</h1>
     <p class="mt-2 text-muted-foreground">
-      Explora todos los proyectos presentados en
+      Explora todos los proyectos presentados en <strong>{{expoName}}</strong>
     </p>
   </div>
 
@@ -44,7 +44,11 @@
     @for (project of sortedProjects; track project.id) {
     <p-card class="overflow-hidden flex flex-col h-full">
       <div class="relative aspect-video overflow-hidden rounded-lg">
-        <img [src]="project.image_url" class="w-full object-cover" />
+        <img
+          [src]="project.image_url"
+          [alt]="project.title"
+          class="w-full object-cover"
+        />
       </div>
       <div class="flex flex-col flex-1">
         <div class="p-4 flex-1 grid grid-rows-[minmax(2.5rem,auto)_auto] gap-3">

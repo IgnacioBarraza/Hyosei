@@ -1,1 +1,61 @@
-<p>evaluated works!</p>
+<div class="container mx-auto py-4 md:py-8">
+  <div class="mb-6 md:mb-8">
+    <h1 class="text-2xl font-bold tracking-tight md:text-4xl">
+      Proyectos Evaluados
+    </h1>
+    <p class="mt-2 text-sm text-muted-foreground md:text-base">
+      Revisa los proyectos que ya has evaluado y tus calificaciones
+    </p>
+  </div>
+
+  @if (evaluatedProjects.length > 0) {
+  <div class="grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:grid-cols-4">
+    @for (project of evaluatedProjects; track project.id) {
+    <p-card class="overflow-hidden">
+      <div class="relative aspect-video overflow-hidden rounded-lg">
+        <img
+          [src]="project.project.image_url"
+          [alt]="project.project.title"
+          class="w-full object-cover"
+        />
+        <div
+          class="absolute right-2 top-2 flex items-center gap-1 rounded-full bg-black/70 px-2 py-1 text-white"
+        >
+          <i
+            class="pi pi-star-fill h-3.5 w-3.5 fill-yellow-400 text-yellow-400"
+          ></i>
+          <span class="text-sm font-medium">{{project.final_score}}/7</span>
+        </div>
+      </div>
+      <div class="p-4">
+        <h3 class="font-semibold">{{project.project.title}}</h3>
+        <p-badge
+          variant="secondary"
+          class="mt-2 text-xs px-3 rounded-2xl bg-secondary text-color"
+          [value]="project.project.category.name"
+        >
+        </p-badge>
+        <p class="mt-3 line-clamp-3 text-sm text-muted-foreground">
+          {{project.comment || 'Sin comentarios'}}
+        </p>
+      </div>
+    </p-card>
+    }
+  </div>
+  } @else {
+  <div class="rounded-lg border border-dashed p-6 text-center">
+    <div
+      class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-muted"
+    >
+      <i class="pi pi-exclamation-circle text-muted-foreground"></i>
+    </div>
+    <h3 class="mb-2 text-lg font-medium">No has evaluado ningún proyecto</h3>
+    <p class="mb-4 text-sm text-muted-foreground">
+      Explora los proyectos disponibles y comienza a evaluarlos.
+    </p>
+    <button asChild>
+      <a href="/proyectos">Ver proyectos</a>
+    </button>
+  </div>
+  }
+</div>

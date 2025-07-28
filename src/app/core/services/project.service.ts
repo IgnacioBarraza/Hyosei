@@ -3,7 +3,7 @@ import { Observable, of, switchMap } from 'rxjs';
 import { Project } from '../models/projects';
 import { EventService } from './event.service';
 import { HttpClient } from '@angular/common/http';
-import { EvaluationPayload } from '../models/evaluations';
+import { Evaluation, EvaluationPayload } from '../models/evaluations';
 
 @Injectable({
   providedIn: 'root',
@@ -41,6 +41,15 @@ export class ProjectService {
   ): Observable<boolean> {
     return this.http.get<boolean>(
       `${this.apiUrl}/evaluations/user/${user_id}/project/${project_id}`
+    );
+  }
+
+  getEvaluatedProjectsByUser(
+    user_id: string,
+    event_id: string
+  ): Observable<Evaluation[]> {
+    return this.http.get<Evaluation[]>(
+      `${this.apiUrl}/evaluations/user/${user_id}/event/${event_id}`
     );
   }
 }

@@ -54,6 +54,12 @@ export class Projects implements OnInit, OnDestroy {
         this.allProjects = projects;
         this.filterProjects();
       });
+
+    this.eventService.eventBasic$
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((event) => {
+        this.expoName = event.name;
+      });
   }
 
   filterProjects() {
