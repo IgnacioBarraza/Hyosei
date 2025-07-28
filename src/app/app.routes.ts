@@ -44,12 +44,12 @@ export const routes: Routes = [
         path: 'categorias',
         component: Categories,
       },
-      {
-        path: 'admin',
-        component: Admin,
-        canActivate: [authGuard],
-        data: { roles: ['admin'] },
-      },
+      // {
+      //   path: 'admin',
+      //   component: Admin,
+      //   canActivate: [authGuard],
+      //   data: { roles: ['admin'] },
+      // },
       {
         path: 'auth',
         component: Auth,
