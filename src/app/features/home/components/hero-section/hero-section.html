@@ -49,7 +49,7 @@
           <span pButtonLabel>Ver Proyectos</span>
         </a>
         <a
-          href="/auth/signup"
+          [routerLink]="['/', apiKey, 'event', eventId, 'auth', 'login']"
           pButton
           class="border-neutral-400 hover:bg-neutral-200 bg-transparent border px-4 rounded-xl h-12"
         >

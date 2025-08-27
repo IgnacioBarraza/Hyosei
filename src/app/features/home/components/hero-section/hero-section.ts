@@ -2,10 +2,11 @@ import { Component, Input } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { EventBasic } from '../../../../core/models/event';
 import { EventService } from '../../../../core/services/event.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-hero-section',
-  imports: [ButtonModule],
+  imports: [ButtonModule, RouterLink],
   templateUrl: './hero-section.html',
   styleUrl: './hero-section.css',
 })
@@ -13,12 +14,14 @@ export class HeroSection {
   @Input() eventData!: EventBasic;
 
   projectUrl: string = '';
+  apiKey: string = '';
+  eventId: string = '';
 
   constructor(private eventService: EventService) {
-    const apiKey = this.eventService.getApiKey();
-    const eventId = this.eventService.getEventId();
+    this.apiKey = this.eventService.getApiKey();
+    this.eventId = this.eventService.getEventId();
 
-    this.projectUrl = `/${apiKey}/event/${eventId}/proyectos`;
+    this.projectUrl = `/${this.apiKey}/event/${this.eventId}/proyectos`;
   }
 
   formatDate = (dateStr: string) =>
