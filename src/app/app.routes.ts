@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { Layout } from './core/layout/layout';
+import { Layout } from './layouts/layout/layout';
 import { Evaluate } from './features/evaluate/evaluate';
 import { authGuard } from './core/guards/auth.guard';
 import { Evaluated } from './features/evaluated/evaluated';
@@ -10,7 +10,7 @@ import { Auth } from './features/auth/auth';
 import { Login } from './features/auth/login/login';
 import { Signup } from './features/auth/signup/signup';
 import { Detail } from './features/projects/detail/detail';
-import { ProjectLayout } from './core/project-layout/project-layout';
+import { ProjectLayout } from './layouts/project-layout/project-layout';
 import { Categories } from './features/category/category';
 
 export const routes: Routes = [

@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { EventService } from '../../services/event.service';
+import { Component, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
+import { EventService } from '../../../core/services/event.service';
 
 @Component({
   selector: 'app-footer',

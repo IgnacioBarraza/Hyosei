@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Navbar } from './navbar/navbar';
-import { Footer } from './footer/footer';
-import { EventService } from '../services/event.service';
 import { PageLoader } from '../../shared/components/page-loader/page-loader';
-import { EventBasic } from '../models/event';
 import { Subject, takeUntil } from 'rxjs';
 import { Toast } from 'primeng/toast';
+import { EventBasic } from '../../core/models/event';
+import { EventService } from '../../core/services/event.service';
+import { Footer } from './footer/footer';
 
 @Component({
   selector: 'app-layout',

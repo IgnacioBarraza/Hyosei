@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { EventService } from '../../services/event.service';
-import { AuthService } from '../../services/auth.service';
 import { Subject, takeUntil } from 'rxjs';
 import { Popover, PopoverModule } from 'primeng/popover';
-import { User } from '../../models/user';
 import { Drawer, DrawerModule } from 'primeng/drawer';
+import { AuthService } from '../../../core/services/auth.service';
+import { EventService } from '../../../core/services/event.service';
+import { User } from '../../../core/models/user';
 
 type NavItem = {
   name: string;
