@@ -5,11 +5,11 @@ import { EventService } from '../../core/services/event.service';
 import { Subject, takeUntil } from 'rxjs';
 import { Project } from '../../core/models/projects';
 import { enrichCategoriesWithCountAndColor } from '../../utils/utils';
-import { RouterLink } from '@angular/router';
+import { NavigatorService } from '../../core/services/navigator.service';
 
 @Component({
   selector: 'app-category',
-  imports: [CardModule, RouterLink],
+  imports: [CardModule],
   templateUrl: './category.html',
   styleUrl: './category.css',
 })
@@ -21,7 +21,10 @@ export class Categories implements OnInit, OnDestroy {
   apiKey: string = '';
   eventId: string = '';
 
-  constructor(private event: EventService) {}
+  constructor(
+    private event: EventService,
+    private navigation: NavigatorService
+  ) {}
 
   ngOnInit(): void {
     this.apiKey = this.event.getApiKey();
@@ -36,7 +39,6 @@ export class Categories implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((categories) => {
         this.categories = this.formatCategories(categories, this.projects);
-        console.log(this.categories);
       });
 
     this.event.eventBasic$
@@ -53,5 +55,9 @@ export class Categories implements OnInit, OnDestroy {
 
   formatCategories(categories: Category[], projects: Project[]): Category[] {
     return enrichCategoriesWithCountAndColor(categories, projects);
+  }
+
+  navigateToProjects(category: string) {
+    this.navigation.navigateToProjects(category);
   }
 }

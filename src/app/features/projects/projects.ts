@@ -10,7 +10,8 @@ import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { NavigatorService } from '../../core/services/navigator.service';
 
 @Component({
   selector: 'app-projects',
@@ -22,7 +23,6 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
     ButtonModule,
     IconFieldModule,
     InputIconModule,
-    RouterLink,
   ],
   templateUrl: './projects.html',
   styleUrl: './projects.css',
@@ -41,7 +41,8 @@ export class Projects implements OnInit, OnDestroy {
 
   constructor(
     private eventService: EventService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private navigation: NavigatorService
   ) {}
 
   ngOnInit(): void {
@@ -52,8 +53,6 @@ export class Projects implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((categories) => {
         this.categories = categories;
-
-        // 🔽 Leer query param una vez estén las categorías disponibles
         const categoryId = this.route.snapshot.queryParamMap.get('categoria');
         if (categoryId) {
           this.selectedCategory = this.categories.find(
@@ -61,7 +60,6 @@ export class Projects implements OnInit, OnDestroy {
           );
         }
 
-        // Aplica filtro si ya llegaron proyectos también
         this.filterProjects();
       });
 
@@ -93,5 +91,9 @@ export class Projects implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+  }
+
+  navigateToProjectDetail(id: string) {
+    this.navigation.navigateToProjectDetail(id);
   }
 }

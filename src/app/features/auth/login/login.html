@@ -62,12 +62,12 @@
 
         <p class="mt-4 text-center text-sm text-muted-foreground">
           ¿No tienes una cuenta?
-          <a
-            [routerLink]="['/', apiKey, 'event', eventId, 'auth', 'signup']"
-            class="text-primary underline-offset-4 hover:underline"
+          <button
+            (click)="goToSignup()"
+            class="text-primary underline-offset-4 hover:underline cursor-pointer"
           >
             Regístrate
-          </a>
+          </button>
         </p>
       </div>
     </p-card>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -10,11 +10,11 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { AuthService } from '../../../core/services/auth.service';
-import { Router, RouterLink } from '@angular/router';
 import { EventService } from '../../../core/services/event.service';
 import { EventBasic } from '../../../core/models/event';
 import { Subject, takeUntil } from 'rxjs';
 import { NotificationService } from '../../../core/services/notification.service';
+import { NavigatorService } from '../../../core/services/navigator.service';
 
 @Component({
   selector: 'app-login',
@@ -24,12 +24,11 @@ import { NotificationService } from '../../../core/services/notification.service
     ButtonModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterLink,
   ],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class Login implements OnInit {
+export class Login implements OnInit, OnDestroy {
   private onDestroy$ = new Subject<void>();
   loginForm!: FormGroup;
   apiKey: string;
@@ -40,8 +39,8 @@ export class Login implements OnInit {
     private fb: FormBuilder,
     private auth: AuthService,
     private eventService: EventService,
-    private router: Router,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private navigation: NavigatorService
   ) {
     this.apiKey = this.eventService.getApiKey();
     this.eventId = this.eventService.getEventId();
@@ -58,6 +57,11 @@ export class Login implements OnInit {
       rut: ['', [Validators.required, Validators.pattern(/^\d{7,8}-[0-9kK]$/)]],
       password: ['', [Validators.required]],
     });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   onSubmit() {
@@ -86,7 +90,7 @@ export class Login implements OnInit {
       next: (res) => {
         this.auth.handleAuthToken(res.token);
         this.notification.showSuccess('Inicio de sesión exitoso.');
-        this.router.navigate([`/${this.apiKey}/event/${this.eventId}`]); // ejemplo redirección post-login
+        this.navigation.navigateToHome();
       },
       error: (err) => {
         const detail =
@@ -113,5 +117,9 @@ export class Login implements OnInit {
     const d1 = new Date(date1).toDateString();
     const d2 = new Date(date2).toDateString();
     return d1 === d2;
+  }
+
+  goToSignup() {
+    this.navigation.navigateToSignup();
   }
 }

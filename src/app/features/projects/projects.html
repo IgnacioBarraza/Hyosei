@@ -63,12 +63,13 @@
           </div>
         </div>
         <div class="p-4 pt-0 mt-auto">
-          <a
+          <button
             pButton
-            [routerLink]="['/', apiKey, 'event', eventId, 'proyectos', project.id]"
+            (click)="navigateToProjectDetail(project.id)"
             class="w-full border-neutral-400 hover:bg-neutral-200 bg-transparent border px-4 rounded-sm h-12"
-            >Ver detalles</a
           >
+            Ver detalles
+          </button>
         </div>
       </div>
     </p-card>

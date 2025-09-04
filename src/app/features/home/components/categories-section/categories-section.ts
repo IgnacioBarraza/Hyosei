@@ -5,6 +5,7 @@ import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { CardModule } from 'primeng/card';
 import { Category } from '../../../../core/models/category';
 import { EventService } from '../../../../core/services/event.service';
+import { NavigatorService } from '../../../../core/services/navigator.service';
 
 @Component({
   selector: 'app-categories-section',
@@ -17,10 +18,21 @@ export class CategoriesSection {
 
   projectUrl: string;
 
-  constructor(private eventService: EventService) {
+  constructor(
+    private eventService: EventService,
+    private navigation: NavigatorService
+  ) {
     const apiKey = this.eventService.getApiKey();
     const eventId = this.eventService.getEventId();
 
     this.projectUrl = `/${apiKey}/event/${eventId}/proyectos`;
+  }
+
+  navigateToProjects(param: string) {
+    this.navigation.navigateToProjects(param);
+  }
+
+  navigateToCategories() {
+    this.navigation.navigateToCategories();
   }
 }

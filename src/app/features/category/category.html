@@ -21,14 +21,13 @@
         <p class="text-base">{{category.description}}</p>
       </div>
       <div class="p-4 pt-0 mt-auto flex">
-        <a
+        <button
           pButton
-          [routerLink]="['/', apiKey, 'event', eventId, 'proyectos']"
-          [queryParams]="{ categoria: category.id }"
-          class="w-full border-neutral-400 hover:bg-neutral-200 bg-transparent border rounded-sm h-12 flex items-center justify-center"
+          (click)="navigateToProjects(category.id)"
+          class="w-full border-neutral-400 hover:bg-neutral-200 bg-transparent border rounded-sm h-12 flex items-center justify-center cursor-pointer"
         >
-          Ver detalles
-        </a>
+          Ver proyectos
+        </button>
       </div>
     </p-card>
     }

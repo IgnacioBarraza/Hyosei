@@ -97,12 +97,12 @@
 
         <p class="mt-4 text-center text-sm text-muted-foreground">
           ¿Ya tienes una cuenta?
-          <a
-            [routerLink]="['/', apiKey, 'event', eventId, 'auth', 'login']"
+          <button
+            (click)="goToLogin()"
             class="text-primary underline-offset-4 hover:underline"
           >
             Iniciar Sesión
-          </a>
+          </button>
         </p>
       </div>
     </p-card>

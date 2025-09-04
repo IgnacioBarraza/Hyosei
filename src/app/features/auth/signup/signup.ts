@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -10,12 +10,13 @@ import { Subject, takeUntil } from 'rxjs';
 import { EventBasic } from '../../../core/models/event';
 import { AuthService } from '../../../core/services/auth.service';
 import { EventService } from '../../../core/services/event.service';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { Toast } from 'primeng/toast';
 import { NotificationService } from '../../../core/services/notification.service';
+import { NavigatorService } from '../../../core/services/navigator.service';
 
 @Component({
   selector: 'app-signup',
@@ -25,17 +26,14 @@ import { NotificationService } from '../../../core/services/notification.service
     ButtonModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterLink,
     Toast,
   ],
   templateUrl: './signup.html',
   styleUrl: './signup.css',
 })
-export class Signup implements OnInit {
+export class Signup implements OnInit, OnDestroy {
   private onDestroy$ = new Subject<void>();
   signUp!: FormGroup;
-  apiKey: string;
-  eventId: string;
   event!: EventBasic;
 
   constructor(
@@ -43,11 +41,9 @@ export class Signup implements OnInit {
     private auth: AuthService,
     private eventService: EventService,
     private router: Router,
-    private notifier: NotificationService
-  ) {
-    this.apiKey = this.eventService.getApiKey();
-    this.eventId = this.eventService.getEventId();
-  }
+    private notifier: NotificationService,
+    private navigator: NavigatorService
+  ) {}
 
   ngOnInit(): void {
     this.eventService.eventBasic$
@@ -62,6 +58,11 @@ export class Signup implements OnInit {
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
     });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   onSubmit() {
@@ -98,7 +99,7 @@ export class Signup implements OnInit {
         next: (res) => {
           this.auth.handleAuthToken(res.token);
           this.notifier.showSuccess('Registro exitoso. Redirigiendo...');
-          this.router.navigate([`/${this.apiKey}/event/${this.eventId}`]);
+          this.navigator.navigateToHome();
         },
         error: (err) => {
           const detail =
@@ -125,5 +126,9 @@ export class Signup implements OnInit {
     const d1 = new Date(date1).toDateString();
     const d2 = new Date(date2).toDateString();
     return d1 === d2;
+  }
+
+  goToLogin() {
+    this.navigator.navigateToLogin();
   }
 }

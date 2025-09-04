@@ -2,24 +2,28 @@
   class="fixed top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
 >
   <div class="container mx-auto flex h-14 items-center md:h-16">
-    <img src="/hyosei.ico" alt="Logo feria de ciencias" class="w-8 h-8 block" />
-    <a
-      [routerLink]="navItems[0].href"
-      class="flex items-center justify-center mr-4 space-x-2 md:mr-6"
+    <button
+      (click)="navItems[0].href()"
+      class="flex items-center justify-center mr-4 space-x-2 md:mr-6 cursor-pointer"
     >
+      <img
+        src="/hyosei.ico"
+        alt="Logo feria de ciencias"
+        class="w-8 h-8 block"
+      />
       <span class="text-xl font-bold">Hyōsei</span>
-    </a>
+    </button>
 
     <!-- {/* Navegación para escritorio */} -->
     <nav class="hidden md:flex md:flex-1 md:items-center md:justify-between">
       <div class="flex gap-4 md:gap-6">
         @for (item of navItems; track $index) {
-        <a
-          [routerLink]="item.href"
-          class="text-sm font-medium transition-colors hover:text-primary"
+        <button
+          (click)="item.href()"
+          class="text-sm font-medium transition-colors hover:text-primary cursor-pointer"
         >
           {{item.name}}
-        </a>
+        </button>
         }
       </div>
 
@@ -41,7 +45,9 @@
                   <li
                     class="flex items-center gap-2 px-2 py-1 hover:bg-emphasis cursor-pointer rounded-border"
                   >
-                    <a [routerLink]="navItems[2].href">Mis evaluaciones</a>
+                    <button (click)="navItems[2].href()">
+                      Mis evaluaciones
+                    </button>
                   </li>
                   <div class="border-b my-1"></div>
                   <li
@@ -56,13 +62,14 @@
           </p-popover>
         </div>
         } @else {
-        <p-button pButton class="h-8 md:h-9 bg-black p-3">
-          <a [routerLink]="'/' + apiKey + '/event/' + eventId + '/auth/login'">
-            <i class="pi pi-sign-in mr-2 h-4 w-4"></i>
-            <span class="hidden sm:inline">Iniciar sesión</span>
-            <span class="sm:hidden">Ingresar</span>
-          </a>
-        </p-button>
+        <button
+          (click)="navigateToLogin()"
+          class="cursor-pointer flex items-center bg-black p-2.5 rounded-md text-white"
+        >
+          <i class="pi pi-sign-in mr-2 h-4 w-4"></i>
+          <span class="hidden sm:inline">Iniciar sesión</span>
+          <span class="sm:hidden">Ingresar</span>
+        </button>
         }
       </div>
     </nav>
@@ -74,17 +81,17 @@
           <div class="flex flex-col h-full p-2.5">
             <div class="flex items-center justify-between px-6 pt-4 shrink-0">
               <span class="inline-flex items-center gap-2">
-                <img
-                  src="/hyosei.ico"
-                  alt="Logo feria de ciencias"
-                  class="w-8 h-8 block"
-                />
-                <a
-                  [routerLink]="navItems[0].href"
-                  class="flex items-center justify-center mr-4 space-x-2 md:mr-6"
+                <button
+                  (click)="navItems[0].href()"
+                  class="flex items-center justify-center mr-4 space-x-2 md:mr-6 text-black"
                 >
+                  <img
+                    src="/hyosei.ico"
+                    alt="Logo feria de ciencias"
+                    class="w-8 h-8 block"
+                  />
                   <span class="text-xl font-bold">Hyōsei</span>
-                </a>
+                </button>
               </span>
               <span>
                 <p-button
@@ -99,15 +106,15 @@
             </div>
             <div class="overflow-y-auto">
               <ul class="list-none p-0 m-0 overflow-hidden">
-                @for (item of navItems; track item.href) {
+                @for (item of navItems; track $index) {
                 <li>
-                  <a
-                    [routerLink]="item.href"
+                  <button
+                    (click)="item.href()"
                     class="flex items-center cursor-pointer p-4 transition-colors hover:text-foreground"
                   >
                     <i class="pi {{item.icon}} mr-2"></i>
                     <span class="text-black">{{item.name}}</span>
-                  </a>
+                  </button>
                 </li>
                 }
               </ul>
@@ -118,10 +125,10 @@
                   <i class="pi pi-user h-4 w-4"></i>
                   <span class="font-bold">{{user.name}}</span>
                 </div>
-                <a [routerLink]="navItems[2].href">
+                <button (click)="navItems[2].href()">
                   <i class="pi pi-clipboard mr-2 inline h-4 w-4"></i>
                   Mis evaluaciones
-                </a>
+                </button>
                 <button
                   class="flex justify-center items-center gap-2 px-2 py-1 cursor-pointer rounded-border bg-black text-neutral-100"
                   (click)="logout()"
@@ -135,12 +142,10 @@
                 pButton
                 class="w-full mx-auto bg-black rounded-md h-8 mt-2 text-neutral-100"
               >
-                <a
-                  [routerLink]="'/' + apiKey + '/event/' + eventId + '/auth/login'"
-                >
+                <button (click)="navigateToLogin()">
                   <i class="pi pi-sign-in mr-2 h-4 w-4"></i>
                   <span>Iniciar sesión</span>
-                </a>
+                </button>
               </button>
               }
             </div>

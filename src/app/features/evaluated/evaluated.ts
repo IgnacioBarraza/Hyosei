@@ -7,6 +7,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../core/models/user';
 import { EventService } from '../../core/services/event.service';
 import { Subject, takeUntil } from 'rxjs';
+import { NavigatorService } from '../../core/services/navigator.service';
 
 @Component({
   selector: 'app-evaluated',
@@ -23,7 +24,8 @@ export class Evaluated implements OnInit, OnDestroy {
   constructor(
     private projectService: ProjectService,
     private auth: AuthService,
-    private event: EventService
+    private event: EventService,
+    private navigation: NavigatorService
   ) {}
 
   ngOnInit(): void {
@@ -33,20 +35,28 @@ export class Evaluated implements OnInit, OnDestroy {
       this.user = user;
     }
     if (!this.user) {
-      console.error('Usuario no autenticado.');
+      console.warn('Usuario no autenticado.');
       this.evaluatedProjects = [];
     }
 
-    this.projectService
-      .getEvaluatedProjectsByUser(this.user.id, this.eventId)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((data) => {
-        this.evaluatedProjects = data;
-      });
+    if (this.user && this.user.id) {
+      this.projectService
+        .getEvaluatedProjectsByUser(this.user.id, this.eventId)
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((data) => {
+          this.evaluatedProjects = data;
+        });
+    } else {
+      this.evaluatedProjects = [];
+    }
   }
 
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+  }
+
+  navigateToProjects() {
+    this.navigation.navigateToProjects();
   }
 }
