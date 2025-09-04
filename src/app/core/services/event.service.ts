@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import {
   BehaviorSubject,
   catchError,
@@ -14,9 +14,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root',
 })
 export class EventService {
+  private readonly backend_url: string = isDevMode()
+    ? 'http://localhost:5000/api/events'
+    : 'https://api-hyosei.up.railway.app/api/events';
   private apiKey: string = '';
   private eventId: string = '';
-  private backend_url: string = 'https://api-hyosei.up.railway.app/api/events';
   private refreshSubscription: Subscription | null = null;
 
   private eventSubject = new BehaviorSubject<EventData>({} as EventData);

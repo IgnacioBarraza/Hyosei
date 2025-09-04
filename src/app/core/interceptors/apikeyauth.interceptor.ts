@@ -17,19 +17,18 @@ export const ApikeyAuthInterceptor: HttpInterceptorFn = (
   const apikey = event.getApiKey?.();
   const url = req.url.toLowerCase();
 
-  // No agregar headers en endpoints de /users o /roles
-  if (url.includes('/users') || url.includes('/roles')) {
-    return next(req);
-  }
-
   let headers = req.headers;
 
   if (apikey) {
     headers = headers.set('x-api-key', apikey);
   }
 
-  // Solo agregar token en evaluaciones - inyección lazy para evitar dependencia circular
-  if (url.includes('/evaluations')) {
+  // Inyección lazy para evitar dependencia circular
+  if (
+    url.includes('/evaluations') ||
+    url.includes('/users') ||
+    url.includes('/roles')
+  ) {
     const auth = injector.get(AuthService);
     const token = auth.getToken?.();
 

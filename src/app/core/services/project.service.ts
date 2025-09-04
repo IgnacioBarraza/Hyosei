@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { Observable, of, switchMap } from 'rxjs';
 import { Project } from '../models/projects';
 import { EventService } from './event.service';
@@ -9,7 +9,9 @@ import { Evaluation, EvaluationPayload } from '../models/evaluations';
   providedIn: 'root',
 })
 export class ProjectService {
-  private readonly apiUrl = 'https://api-hyosei.up.railway.app/api';
+  private readonly apiUrl = isDevMode()
+    ? 'http://localhost:5000/api'
+    : 'https://api-hyosei.up.railway.app/api';
 
   constructor(private eventService: EventService, private http: HttpClient) {}
 

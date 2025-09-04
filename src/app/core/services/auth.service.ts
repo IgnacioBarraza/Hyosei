@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../models/user';
 import { HttpClient } from '@angular/common/http';
@@ -16,7 +16,9 @@ interface DecodedToken {
   providedIn: 'root',
 })
 export class AuthService {
-  apiUrl: string = 'https://api-hyosei.up.railway.app/api/users';
+  apiUrl: string = isDevMode()
+    ? 'http://localhost:5000/api/users'
+    : 'https://api-hyosei.up.railway.app/api/users';
 
   private userSubject = new BehaviorSubject<User | null>(null);
   public user$ = this.userSubject.asObservable();
