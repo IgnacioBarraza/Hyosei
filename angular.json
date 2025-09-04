@@ -101,14 +101,10 @@
   },
   "schematics": {
     "@schematics/angular:component": {
-      "type": ""
+      "style": "css"
     },
-    "@schematics/angular:directive": {
-      "type": "directive"
-    },
-    "@schematics/angular:service": {
-      "type": "service"
-    },
+    "@schematics/angular:directive": {},
+    "@schematics/angular:service": {},
     "@schematics/angular:guard": {
       "typeSeparator": "."
     },
